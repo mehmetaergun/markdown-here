@@ -1,6 +1,71 @@
 Change Log
 ==========
 
+2014-09-18: v2.11.2
+-------------------
+
+* [Fixed bug #141](https://github.com/adam-p/markdown-here/issues/141): Markdown Here in **Firefox would mysteriously stop working after a while** (aka the "ReferenceError: document is not defined" problem). It turns out that opening and closing a new browser window would trigger the bug.
+  - This also manifested as ["Problem related with Zotero"](https://github.com/adam-p/markdown-here/issues/189) and ["Thunderbird: does not toggle when only the Write window is open"](https://github.com/adam-p/markdown-here/issues/175).
+  - Thanks to everyone who reported this and helped diagnose it: [Ryan Heaton](https://github.com/stoicflame) (who [originally reported the bug](https://groups.google.com/forum/#!topic/markdown-here/ikXFqkP77Ws)), [darickard](https://github.com/darickard), [JacobEvelyn](https://github.com/JacobEvelyn), [Lennaick](https://github.com/lennaick), [Sherwood Botsford](https://plus.google.com/u/0/+SherwoodBotsford), [Cyrus David](https://github.com/vohof), and [iagobozza](https://github.com/iagobozza), who [shared a screencast](https://github.com/adam-p/markdown-here/issues/189) that finally provided a reproduction scenario and allowed us to figure out the bug.
+
+* **Added support for "retina"** (high PPI) displays. The Markdown Here icons should now be nice and crisp. Closes [issue #205](https://github.com/adam-p/markdown-here/issues/205).
+  - Caveats: 
+    - There doesn't seem to be a way to specify a high-res icon for Chrome's context menu item.
+    - Postbox just doesn't seem to work. I don't think there's a regression, though.
+    - I don't actually own any fancy retina-display computers, so... please create an issue if something is broken. 
+    - Thanks to [Alexandru Nedelcu](https://github.com/alexandru) for requesting this.
+
+* [Fixed bug #202](https://github.com/adam-p/markdown-here/issues/202): In Options page, Markdown preview wasn't initially rendering.
+
+* Updated translations.
+  - Spanish: [Oscar del Pozo](https://crowdin.com/profile/oskar7) and [Rafa Couto](https://crowdin.com/profile/rafacouto).
+  - Dutch: [yoroy](https://crowdin.com/profile/yoroy).
+  - French: [nullepart](https://crowdin.com/profile/nullepart).
+  - Chinese: [sherkiv](https://crowdin.com/profile/sherkiv).
+
+
+2014-08-31: v2.11.1
+-------------------
+
+* [Fixed annoying bug #188](https://github.com/adam-p/markdown-here/issues/188): Keyboard shortcut was not working in Chrome+Gmail.
+  - Thanks to: [Paulo Diovani Gonçalves](https://github.com/paulodiovani), [Edmundo Junior](https://github.com/edmundojr), [Mike Lindegarde](https://github.com/mlindegarde), [Jordi Gerona](https://github.com/jordi9), [Dilek](https://github.com/averagewizard), [Hrusikesh Panda](https://github.com/mrchief), [Clay McKell](https://github.com/kcmckell), [Trey Harris](https://groups.google.com/forum/#!topic/markdown-here/SnQ4fVtQvQQ).
+
+* With the help of our hard-working translators, **six new translations** were added. They are: Chinese, French, German, Russian, Spanish, and Turkish.
+  - Thanks to: [Antoine Proulx](https://crowdin.com/profile/magicienap), [ebouchut](https://crowdin.com/profile/ebouchut), [Lennaick](https://crowdin.com/profile/lennaick), [leftaroundabout](https://crowdin.com/profile/leftaroundabout), [Pierre Quillery](https://crowdin.com/profile/dandelionmood), [Ko-Chih Wu](https://crowdin.com/profile/mecca831), [Masahiro Umegaki](https://crowdin.com/profile/ume), [dlkgenc](https://crowdin.com/profile/dlkgenc), [turkish123](https://crowdin.com/profile/turkish123), [sergiolunagarcia](https://crowdin.com/profile/sergiolunagarcia), [Alexis Morelle](https://crowdin.com/profile/almorelle), and my friend and co-worker [Eugene Fryntov](https://crowdin.com/profile/efryntov). (You're all also in the [contributors list](https://github.com/adam-p/markdown-here/blob/development/CONTRIBUTE.md).)
+  - If you'd like to start a new language, add to a not-quite-complete translation, or fix up something, please visit the [Markdown Here translation project on Crowdin](https://crowdin.com/project/markdown-here).
+
+* **Updated [Highglight.js](http://highlightjs.org/)**, which is the syntax highlighting library used by Markdown Here.
+  * **NOTE**: If your syntax higlighting looks wrong, switch your theme. Your styling might be stale.
+  * Now supports **language aliases**. For example, `js` is an alias for `javascript`, `html` is an alias for `xml`, and `coffee`, `cson`, and `iced` are aliases for `coffeescript`. You can see the [complete list here](http://highlightjs.readthedocs.org/en/latest/css-classes-reference.html).
+  * New languages: Makefile, Scilab, LiveCode Server, OCaml, Oxygene, Mathematica, Autohotkey, Gherkin, Elixir, NSIS, VIM script, Protocol Buffers, Nix, x86asm, Cap’n Proto and Thrift, Monkey, TypeScript, Nimrod, Gradle, Haxe, Swift, Groovy, Dart, Dust, Scheme, G-Code, Q.
+  * New themes: Atelier, Paraíso, Kimbie, Colorbrewer, Codepen.io embed, Hybrid.
+  * Lots of theme and language improvements.
+  * This resolves MDH issues [#193](https://github.com/adam-p/markdown-here/issues/193) and [#196](https://github.com/adam-p/markdown-here/issues/196).
+  * Make no mistake, all credit for this goes to [Ivan Sagalaev](https://github.com/isagalaev) and the [Hightlight.js contributors](https://github.com/isagalaev/highlight.js/blob/master/AUTHORS.en.txt).
+
+
+2014-05-17: v2.11.0
+-------------------
+
+* Added ability to **de-render after saving**. After you render and save an **email draft** or an **Evernote** Note or a **Google Group post** or a **Blogger post** (or etc.), you can go back, edit it, and de-render it back to Markdown. 
+  * Fixes [#85](https://github.com/adam-p/markdown-here/issues/85) and [#86](https://github.com/adam-p/markdown-here/issues/86). Thanks to [Alfredo Canziani](https://github.com/Atcold), [HU, Pili](https://github.com/hupili), [Dima Tisnek](https://github.com/dimaqq), [dayer4b](https://github.com/dayer4b), [Bryan Cribbs](https://github.com/bdcribbs), [jmerlevede](https://github.com/jmerlevede), [portmantoad](https://github.com/portmantoad), and [Kurtis Rainbolt-Greene](https://github.com/krainboltgreene) for reporting the issue, suggesting solutions, and helping to test.
+  * Deets for geeks: Below the rendered MD, in the same wrapper `div`, there is now a `div` with its `title` attribute set to the original MD (base64), containing a zero-width space, and styled to be zero-height. This delightful hack was the best combination of factors that ensured the raw MD would survive.
+
+* Added a partial Korean translation, thanks to [dotvezz](https://crowdin.net/profile/dotvezz). 
+  * **Do you speak something in addition to English?** [At least half](https://addons.mozilla.org/en-US/firefox/addon/markdown-here/statistics/usage/languages/?last=30) of all Markdown Here users are not English, but Japanese is the only complete translation we have. **It's easy to help with translations** -- just try out the [Crowdin project for Markdown Here](https://crowdin.net/project/markdown-here). Thanks!
+
+* Added ability to disable GFM line breaks.
+  * Thanks to [ase34](https://github.com/ase34) and [violahs](https://github.com/violahs) for [requesting this](https://github.com/adam-p/markdown-here/issues/103).
+
+* [Fixed bug #51](https://github.com/adam-p/markdown-here/issues/51): Links with URL text (like `[http://example.com](http://example.com`) weren't rendering properly.
+  * Thanks to [Christopher Jeffrey](https://github.com/chjj) -- the author of [the rendering library](https://github.com/chjj/marked) that Markdown Here uses! -- for this fix.
+
+* Altered default H1 and H2 header styles to match new GitHub styling. You'll have to click "Reset to Default" to get these styles.
+  * Fixes [#177](https://github.com/adam-p/markdown-here/issues/177). Thanks to [Steven Willis](https://github.com/onlynone).
+
+* [Fixed bug #173](https://github.com/adam-p/markdown-here/issues/173): Markdown Here was generating lots of errors in the console on sites with an `iframe` that use tight security  (like jsbin.com). Thanks to [Devin Weaver](https://github.com/sukima).
+
+
 2014-01-29: v2.10.0
 -------------------
 

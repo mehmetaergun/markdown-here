@@ -4,9 +4,10 @@
  */
 
 "use strict";
-/*global OptionsStore:false, chrome:false, markdownRender:false, $:false,
+/*jshint browser:true, jquery:true, sub:true */
+/*global OptionsStore:false, chrome:false, markdownRender:false,
   htmlToText:false, marked:false, hljs:false, markdownHere:false, Utils:false,
-  MdhHtmlToText:false*/
+  MdhHtmlToText:false */
 
 /*
  * Main script file for the options page.
@@ -14,7 +15,8 @@
 
 var cssEdit, cssSyntaxEdit, cssSyntaxSelect, rawMarkdownIframe, savedMsg,
     mathEnable, mathEdit, hotkeyShift, hotkeyCtrl, hotkeyAlt, hotkeyKey,
-    forgotToRenderCheckEnabled, headerAnchorsEnabled, loaded = false;
+    forgotToRenderCheckEnabled, headerAnchorsEnabled, gfmLineBreaksEnabled,
+    loaded = false;
 
 function onLoad() {
   var xhr;
@@ -38,6 +40,7 @@ function onLoad() {
   hotkeyKey = document.getElementById('hotkey-key');
   forgotToRenderCheckEnabled = document.getElementById('forgot-to-render-check-enabled');
   headerAnchorsEnabled = document.getElementById('header-anchors-enabled');
+  gfmLineBreaksEnabled = document.getElementById('gfm-line-breaks-enabled');
 
   //
   // Syntax highlighting styles and selection
@@ -86,6 +89,8 @@ function onLoad() {
 
     headerAnchorsEnabled.checked = prefs['header-anchors-enabled'];
 
+    gfmLineBreaksEnabled.checked = prefs['gfm-line-breaks-enabled'];
+
     // Start watching for changes to the styles.
     setInterval(checkChange, 100);
   });
@@ -112,19 +117,13 @@ function onLoad() {
   // of extension packages.
 
   // Check if our test file exists.
-  // Note: Using $.ajax won't work because for local requests Firefox sets
-  // status to 0 even on success. jQuery interprets this as an error.
-  xhr = new XMLHttpRequest();
-  xhr.open('HEAD', './test/index.html');
-  // If we don't set the mimetype, Firefox will complain.
-  xhr.overrideMimeType('text/plain');
-  xhr.onreadystatechange = function() {
-    if (this.readyState === this.DONE && !this.responseText) {
+  Utils.getLocalFile('./test/index.html', 'text/html', function(_, err) {
+    // The test files aren't present, so hide the button.
+    if (err) {
       // The test files aren't present, so hide the button.
       $('#tests-link').hide();
     }
-  };
-  xhr.send();
+  });
 
   loaded = true;
 }
@@ -157,6 +156,14 @@ function localize() {
         Utils.saferSetInnerHTML(this, Utils.getMessage(messageID));
       }
     });
+
+    // Take this opportunity to show appropriate size images for the pixel
+    // density. This saves us from having to make the `img` tags in the
+    // translated content more complex.
+    if (window.devicePixelRatio === 2) {
+      $('img[src="images/icon16.png"]').css('width', '16px')
+                                       .attr('src', 'images/icon16@2x.png');
+    }
   });
 }
 
@@ -186,7 +193,8 @@ function checkChange() {
         cssEdit.value + cssSyntaxEdit.value +
         mathEnable.checked + mathEdit.value +
         hotkeyShift.checked + hotkeyCtrl.checked + hotkeyAlt.checked + hotkeyKey.value +
-        forgotToRenderCheckEnabled.checked + headerAnchorsEnabled.checked;
+        forgotToRenderCheckEnabled.checked + headerAnchorsEnabled.checked +
+        gfmLineBreaksEnabled.checked;
 
   if (newOptions !== lastOptions) {
     // CSS has changed.
@@ -216,7 +224,8 @@ function checkChange() {
                       key: hotkeyKey.value
                     },
           'forgot-to-render-check-enabled': forgotToRenderCheckEnabled.checked,
-          'header-anchors-enabled': headerAnchorsEnabled.checked
+          'header-anchors-enabled': headerAnchorsEnabled.checked,
+          'gfm-line-breaks-enabled': gfmLineBreaksEnabled.checked
         },
         function() {
           updateMarkdownRender();
